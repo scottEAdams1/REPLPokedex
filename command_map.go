@@ -6,12 +6,12 @@ import (
 	"github.com/scottEAdams1/REPLPokedex/internal/pokeapi"
 )
 
-func commandMap(cfg *config) error {
+func commandMap(cfg *config, extra string) error {
 	url := "https://pokeapi.co/api/v2/location-area/"
 	if cfg.next != nil {
 		url = *cfg.next
 	}
-	locations, err := pokeapi.ListLocations(url)
+	locations, err := pokeapi.ListLocations(url, cfg.cache)
 	if err != nil {
 		return err
 	}

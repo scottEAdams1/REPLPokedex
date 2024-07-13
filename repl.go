@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/scottEAdams1/REPLPokedex/internal/pokecache"
 )
 
 type config struct {
 	next     *string
 	previous *string
+	cache    pokecache.Cache
 }
 
 func startRepl(cfg *config) {
@@ -28,7 +31,12 @@ func startRepl(cfg *config) {
 			fmt.Println("Unknown command")
 			continue
 		}
-		err := item.callback(cfg)
+		var err error
+		if len(words) == 1 {
+			err = item.callback(cfg, "")
+		} else {
+			err = item.callback(cfg, words[1])
+		}
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -38,7 +46,7 @@ func startRepl(cfg *config) {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -62,6 +70,11 @@ func getCommands() map[string]cliCommand {
 			name:        "mapb",
 			description: "Displays the names of the previous 20 location areas in the Pokemon world",
 			callback:    commandMapB,
+		},
+		"explore": {
+			name:        "explore <area_name>",
+			description: "Displays the names of the pokemon at that location",
+			callback:    commandExplore,
 		},
 	}
 }
