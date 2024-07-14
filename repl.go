@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/scottEAdams1/REPLPokedex/internal/pokeapi"
 	"github.com/scottEAdams1/REPLPokedex/internal/pokecache"
 )
 
@@ -13,6 +14,7 @@ type config struct {
 	next     *string
 	previous *string
 	cache    pokecache.Cache
+	pokedex  map[string]pokeapi.Pokemon
 }
 
 func startRepl(cfg *config) {
@@ -75,6 +77,11 @@ func getCommands() map[string]cliCommand {
 			name:        "explore <area_name>",
 			description: "Displays the names of the pokemon at that location",
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch <pokemon>",
+			description: "Throws a pokeball to catch a pokemon",
+			callback:    commandCatch,
 		},
 	}
 }

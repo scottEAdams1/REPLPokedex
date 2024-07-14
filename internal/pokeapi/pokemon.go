@@ -8,7 +8,7 @@ import (
 	"github.com/scottEAdams1/REPLPokedex/internal/pokecache"
 )
 
-func ListPokemon(url string, c pokecache.Cache) (Pokemon, error) {
+func PokemonStats(url string, c pokecache.Cache) (Pokemon, error) {
 	pokemon := Pokemon{}
 	body, ok := c.Get(url)
 	if !ok {
